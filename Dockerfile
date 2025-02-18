@@ -8,6 +8,8 @@ RUN apt-get update && apt-get install -y google-chrome-stable
 
 # Set Chrome binary location (optional, but good practice)
 ENV CHROME_BIN=/usr/bin/google-chrome-stable
+ENV TELEGRAM_CHAT_ID=1012523562
+ENV TELEGRAM_BOT_TOKEN=7374238596:AAFYpFCAxUWHmGmGFVhJBhseC3ByEyYIX2A
 
 # Install ChromeDriver (webdriver-manager will handle this, but ensure compatibility)
 # We will rely on webdriver-manager to get the correct chromedriver, so no manual install here
