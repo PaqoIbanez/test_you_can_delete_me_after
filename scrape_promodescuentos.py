@@ -22,7 +22,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 # ===== CONFIGURACIÓN =====
 
-# Cargar variables de entorno desde un archivo .env
+# Cargar variables de entorno desde un archivo .env (opcional para Render, se pueden configurar directamente en Render)
 load_dotenv()
 
 # Configuración de Logging
@@ -30,17 +30,17 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
-        logging.FileHandler("app.log", encoding="utf-8"),
-        logging.StreamHandler()
+        logging.FileHandler("app.log", encoding="utf-8"), # Logs se guardarán en el sistema de archivos de Render
+        logging.StreamHandler() # También se mostrarán en los logs de Render
     ]
 )
 
 # ==== CONFIGURACIONES TELEGRAM ====
-TELEGRAM_BOT_TOKEN: str = os.getenv("TELEGRAM_BOT_TOKEN", "")
-TELEGRAM_CHAT_ID: str = os.getenv("TELEGRAM_CHAT_ID", "")
+TELEGRAM_BOT_TOKEN: str = os.getenv("TELEGRAM_BOT_TOKEN", "") # Configurar en Render Environment Variables
+TELEGRAM_CHAT_ID: str = os.getenv("TELEGRAM_CHAT_ID", "")   # Configurar en Render Environment Variables
 
 # Archivo para guardar ofertas ya vistas (almacena un diccionario { url: rating })
-SEEN_FILE: str = "seen_hot_deals.json"
+SEEN_FILE: str = "seen_hot_deals.json" # Se guardará en el sistema de archivos de Render
 
 # ==== CONFIGURACIONES DE SCRAPING ====
 # Estos valores de referencia (150, 300, 500, 1000 y tiempos) se usan en la validación.
@@ -55,7 +55,7 @@ def is_deal_valid(deal: Dict[str, Any]) -> bool:
     """
     temp = deal.get("temperature", 0)
     hours = deal.get("hours_since_posted", 0)
-    if temp >= 150 and hours < 1:
+    if temp >= 150 and hours < 0.5:
         return True
     if temp >= 300 and hours < 2:
         return True
@@ -164,7 +164,7 @@ def send_telegram_message(deal_data: Dict[str, Any]) -> None:
     message = f"""
 <b>{deal_data.get('title', '')}</b>
 
-<b>Calificación:</b> {deal_data.get('temperature', 0):.0f}° {emoji} 
+<b>Calificación:</b> {deal_data.get('temperature', 0):.0f}° {emoji}
 <b>{deal_data.get('posted_or_updated', 'Publicado')} hace:</b> {time_ago_text}
 <b>Comercio:</b> {deal_data.get('merchant', 'Unknown')}
 
@@ -221,15 +221,15 @@ def init_driver() -> webdriver.Chrome:
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--disable-software-rasterizer")
-    chrome_options.add_argument("--remote-debugging-port=9222")
+    chrome_options.add_argument("--remote-debugging-port=9222") # Útil para debugging remoto si es necesario
     chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_argument("--enable-logging")
     chrome_options.add_argument("--v=1")
-    chrome_options.add_argument("--user-data-dir=/tmp/chrome-data")
-    chrome_options.add_argument("user-agent=Mozilla/5.0 ...")
+    chrome_options.add_argument("--user-data-dir=/tmp/chrome-data") # Directorio temporal para datos de Chrome
+    chrome_options.add_argument("user-agent=Mozilla/5.0 ...") # Reemplazar ... con user-agent real si es necesario
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     chrome_options.add_experimental_option("useAutomationExtension", False)
-    service = Service(ChromeDriverManager().install())
+    service = Service(ChromeDriverManager().install()) # Webdriver Manager se encargará de la instalación del driver
     driver = webdriver.Chrome(service=service, options=chrome_options)
     return driver
 
@@ -255,7 +255,7 @@ def scrape_promodescuentos_hot(driver: webdriver.Chrome) -> str:
     try:
         driver.get(url)
         WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
-        time.sleep(2)
+        time.sleep(2) # Espera adicional para asegurar que la página cargue completamente
         html = driver.page_source
     except Exception as e:
         logging.exception("Error scraping: %s", e)
@@ -380,8 +380,8 @@ def main() -> None:
                     logging.warning("No se pudieron obtener las ofertas. Se intentará nuevamente en la siguiente iteración.")
                 else:
                     # Guardar el HTML para depuración (opcional)
-                    with open("debug_degrees.html", "w", encoding="utf-8") as f:
-                        f.write(html)
+                    # with open("debug_degrees.html", "w", encoding="utf-8") as f:
+                    #     f.write(html)
 
                     soup = BeautifulSoup(html, "html.parser")
                     deals = parse_deals(soup)
