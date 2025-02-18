@@ -221,15 +221,19 @@ def init_driver() -> webdriver.Chrome:
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--disable-software-rasterizer")
-    chrome_options.add_argument("--remote-debugging-port=9222") # Útil para debugging remoto si es necesario
+    chrome_options.add_argument("--remote-debugging-port=9222")
     chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_argument("--enable-logging")
     chrome_options.add_argument("--v=1")
-    chrome_options.add_argument("--user-data-dir=/tmp/chrome-data") # Directorio temporal para datos de Chrome
-    chrome_options.add_argument("user-agent=Mozilla/5.0 ...") # Reemplazar ... con user-agent real si es necesario
+    chrome_options.add_argument("--user-data-dir=/tmp/chrome-data")
+    chrome_options.add_argument("user-agent=Mozilla/5.0 ...")
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     chrome_options.add_experimental_option("useAutomationExtension", False)
-    service = Service(ChromeDriverManager().install()) # Webdriver Manager se encargará de la instalación del driver
+
+    # Explicitly set Chrome binary location (if needed, but good practice)
+    chrome_options.binary_location = os.environ.get("CHROME_BIN")
+
+    service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
     return driver
 
