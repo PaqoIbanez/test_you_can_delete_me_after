@@ -7,6 +7,8 @@ import json
 import logging
 from contextlib import contextmanager
 from typing import Dict, List, Any, Generator
+from flask import Flask, jsonify
+import threading
 
 import requests
 from dotenv import load_dotenv
@@ -21,6 +23,15 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
 # ===== CONFIGURACIÓN =====
+
+app = Flask(__name__)
+
+@app.route('/healthz')
+def healthz():
+    return jsonify({"status": "ok"}), 200
+
+def start_health_server():
+    app.run(host='0.0.0.0', port=10000, debug=False, use_reloader=False) # Puerto 10000 (puedes cambiarl
 
 # Cargar variables de entorno desde un archivo .env (opcional para Render, se pueden configurar directamente en Render)
 load_dotenv()
@@ -55,9 +66,9 @@ def is_deal_valid(deal: Dict[str, Any]) -> bool:
     """
     temp = deal.get("temperature", 0)
     hours = deal.get("hours_since_posted", 0)
-    if temp >= 130 and hours < 1:
+    if temp >= 130 and hours < 2:
         return True
-    if temp >= 300 and hours < 2:
+    if temp >= 300 and hours < 3:
         return True
     if temp >= 500 and hours < 5:
         return True
@@ -372,6 +383,11 @@ def main() -> None:
     Función principal que ejecuta el scraper en un loop, filtra y envía las ofertas válidas a Telegram.
     Se reenvía la oferta si su rating actual es mayor que el registrado anteriormente.
     """
+
+    health_thread = threading.Thread(target=start_health_server)
+    health_thread.daemon = True # Para que el hilo termine cuando termine el programa principal
+    health_thread.start()
+
     seen_deals: Dict[str, int] = load_seen_deals(SEEN_FILE)
     logging.info("Inicio del proceso de scraping de Promodescuentos Hot.")
 

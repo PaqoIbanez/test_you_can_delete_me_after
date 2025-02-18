@@ -9,3 +9,29 @@
 
 2025-02-17 19:13:26,406 [INFO] Interrupción manual detectada. Saliendo...
 2025-02-17 19:13:26,409 [WARNING] Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(10054, 'Se ha forzado la interrupción de una conexión existente por el host remoto', None, 10054, None)': /session/0e5d897fe6808dfcfe54933fdaaf3892
+2025-02-17 19:44:49,254 [INFO] Inicio del proceso de scraping de Promodescuentos Hot.
+2025-02-17 19:46:06,400 [INFO] Inicio del proceso de scraping de Promodescuentos Hot.
+2025-02-17 19:46:06,400 [INFO] ====== WebDriver manager ======
+2025-02-17 19:46:07,227 [INFO] Get LATEST chromedriver version for google-chrome
+2025-02-17 19:46:07,372 [INFO] Get LATEST chromedriver version for google-chrome
+2025-02-17 19:46:07,504 [INFO] Driver [C:\Users\Francisco Javier\.wdm\drivers\chromedriver\win64\133.0.6943.98\chromedriver-win32/chromedriver.exe] found in cache
+2025-02-17 19:46:08,486 [INFO] Revisando 'Hot' Promodescuentos...
+2025-02-17 19:46:13,729 [INFO] No hay ofertas nuevas o mejoradas que cumplan las validaciones.
+2025-02-17 19:46:13,730 [INFO] Esperando 17 min 12 seg...
+
+2025-02-17 19:47:19,447 [INFO] Interrupción manual detectada. Saliendo...
+2025-02-17 19:47:19,450 [WARNING] Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(10054, 'Se ha forzado la interrupción de una conexión existente por el host remoto', None, 10054, None)': /session/911477c1025393eead62619d714d585d
+2025-02-17 19:47:32,695 [INFO] Inicio del proceso de scraping de Promodescuentos Hot.
+2025-02-17 19:47:32,696 [INFO] ====== WebDriver manager ======
+2025-02-17 19:47:33,487 [INFO] Get LATEST chromedriver version for google-chrome
+2025-02-17 19:47:33,625 [INFO] Get LATEST chromedriver version for google-chrome
+2025-02-17 19:47:33,757 [INFO] Driver [C:\Users\Francisco Javier\.wdm\drivers\chromedriver\win64\133.0.6943.98\chromedriver-win32/chromedriver.exe] found in cache
+2025-02-17 19:47:34,676 [INFO] Revisando 'Hot' Promodescuentos...
+2025-02-17 19:48:02,285 [INFO] Se encontraron 1 ofertas nuevas o mejoradas.
+2025-02-17 19:48:02,286 [INFO] - 320° | 2.0h | Santander: Curso Copilot: Fundamentos de IA de Microsoft (con certificado)
+https://www.promodescuentos.com/ofertas/santander-curso-copilot-fundamentos-de-ia-de-microsoft-con-certificado-1031459
+2025-02-17 19:48:03,945 [INFO] Mensaje Telegram enviado correctamente.
+2025-02-17 19:48:03,946 [INFO] Esperando 17 min 6 seg...
+
+2025-02-17 19:48:43,911 [INFO] Interrupción manual detectada. Saliendo...
+2025-02-17 19:48:43,915 [WARNING] Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(10054, 'Se ha forzado la interrupción de una conexión existente por el host remoto', None, 10054, None)': /session/c6ae29eaef4fb81b43406073ec830a09

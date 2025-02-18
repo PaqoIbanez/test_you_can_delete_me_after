@@ -3,3 +3,4 @@ python-dotenv
 beautifulsoup4
 selenium
 webdriver-manager
+flask  # Añade esta línea
